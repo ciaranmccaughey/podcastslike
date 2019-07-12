@@ -1,18 +1,17 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import Search from "../components/Search/Search";
 import SearchResults from "../components/SearchResults/SearchResults";
 import axios from "axios";
+ 
+const Home = () => {
 
-class Home extends Component {
-  state = {
-    podcasts: null
+  const [podcasts, setPodcasts] = useState(null);
+
+  const setPodcastResults = podcasts => {
+    setPodcasts(podcasts);
   };
 
-  setPodcastResults = podcasts => {
-    this.setState({ podcasts: podcasts });
-  };
-
-  findSimilarPodcasts = podcast => {
+  const findSimilarPodcasts = podcast => {
     
     // get a random genre by generating a random number between 0 and the length of the genre ids
     const random = Math.floor(Math.random() * (podcast.genreIds.length - 1) + 1);
@@ -30,11 +29,11 @@ class Home extends Component {
         // set the selected podcast as the top result
         // shuffle the array of results so the it looks different each time
         results = [podcast, ...this.shuffle(results)];
-        this.setState({ podcasts: results });
+        setPodcasts(results);
       });
   };
 
-  shuffle = array => {
+  const shuffle = array => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
@@ -43,20 +42,18 @@ class Home extends Component {
     return array;
   };
 
-  render() {
     return (
       <>
-        <Search setPodcastResults={this.setPodcastResults} />
-        {this.state.podcasts && !this.state.selectedPodcast ? (
+        <Search setPodcastResults={setPodcastResults} />
+        {podcasts ? (
           <SearchResults
-            podcasts={this.state.podcasts}
-            findSimilarPodcasts={this.findSimilarPodcasts}
+            podcasts={podcasts}
+            findSimilarPodcasts={findSimilarPodcasts}
           />
         ) : null}
 
       </>
     );
-  }
 }
 
 export default Home;
