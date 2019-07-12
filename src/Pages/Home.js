@@ -28,7 +28,7 @@ const Home = () => {
         podcast.selected = true;
         // set the selected podcast as the top result
         // shuffle the array of results so the it looks different each time
-        results = [podcast, ...this.shuffle(results)];
+        results = [podcast, ...shuffle(results)];
         setPodcasts(results);
       });
   };
