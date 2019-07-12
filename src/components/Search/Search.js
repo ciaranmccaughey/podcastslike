@@ -1,10 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import InputBase from "@material-ui/core/InputBase";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
-import SearchIcon from "@material-ui/icons/Search";
 import axios from "axios";
+
 axios.defaults.baseURL = "https://itunes.apple.com";
 const useStyles = makeStyles(theme => ({
   field: {
@@ -21,32 +19,43 @@ const useStyles = makeStyles(theme => ({
     position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: "white",
-    marginTop: '100px',
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    marginTop: "50px",
+    marginLeft: "auto",
+    marginRight: "auto",
     width: "90%",
-    height: "50px",
+    height: "50px"
   },
   searchInput: {
-    paddingLeft: '30px',
-    fontSize: '30px',
+    paddingLeft: "30px",
+    fontSize: "30px",
+    width: "95%",
+    height: "50px"
+  },
+  header: {
+    position: "relative",
+    marginLeft: "auto",
+    marginRight: "auto",
     width: "90%",
     height: "50px",
+    fontFamily: "Lobster",
+    color: "white",
+    fontSize: "30px",
+    margin: "auto",
+    textAlign: "center"
   }
 }));
 
 const Search = ({ setPodcastResults }) => {
   const classes = useStyles();
 
+  // search podcast based on name
   const search = event => {
     const value = event.target.value;
 
     if (value.length > 2) {
-      axios
-        .get("search?entity=podcast&term=" + encodeURI(value))
+      axios.get("search?entity=podcast&term=" + encodeURI(value))
         .then(response => {
-          //   console.log(response);
-          console.log(response.data.results);
+
           if (response.data.results.length !== 0) {
             setPodcastResults(response.data.results);
           }
@@ -56,10 +65,16 @@ const Search = ({ setPodcastResults }) => {
     }
   };
 
+
   return (
     <>
+      <div className={classes.header}>
+        Find Podcasts Like The Ones You Love!
+      </div>
+
       <div className={classes.search}>
         <InputBase
+          autoFocus
           placeholder="Podcasts Like"
           className={classes.searchInput}
           inputProps={{ "aria-label": "Search" }}

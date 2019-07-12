@@ -1,12 +1,11 @@
 import React from "react";
 import PodcastItem from "../Podcast/PodcastItem";
 
-const SearchResults = ({ podcasts }) => {
+const SearchResults = ({ podcasts, findSimilarPodcasts }) => {
 
-    console.log('podcasts', podcasts)
   let results = null;
   if (podcasts) {
-    results = podcasts.map(podcast => <PodcastItem podcast={podcast} />);
+    results = podcasts.map(podcast => <PodcastItem key={podcast.trackId} podcast={podcast} findSimilarPodcasts={findSimilarPodcasts}/>);
   }
 
   return <>{results}</>;
